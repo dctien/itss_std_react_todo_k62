@@ -27,6 +27,16 @@ function Todo() {
     /* テストコード 終了 */
   ]);
 
+  function handleCheckBox(params) {
+    const newItems = items.map(item => {
+      if (item.key === params.key) {
+        item.done = !item.done
+      }
+      return item
+    });
+    putItems(newItems)
+  };
+
   return (
     <div className="panel">
       <div className="panel-heading">
@@ -34,8 +44,9 @@ function Todo() {
       </div>
       {items.map(item => (
         <TodoItem
-          key   = {item.key}
-          item  = {item}
+          key             = {item.key}
+          item            = {item}
+          onClickCheckBox = {handleCheckBox}
         />
       ))}
       <div className="panel-block">
