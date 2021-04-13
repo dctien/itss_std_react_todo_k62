@@ -26,6 +26,18 @@ function Todo() {
     { key: getKey(), text: '明日の準備をする', done: false },
     /* テストコード 終了 */
   ]);
+  const [filter, setFilter] = useState('すべて')
+  // const itemFilter = items.filter(item => {
+  //   if (filter === 'すべて') return true;
+  //   if (filter === '未完了') return !item.done;
+  //   if (filter === '完了済み') return item.done;
+  // })
+
+  const itemFilter = items.filter(item => {
+    if (filter === 'すべて') return true;
+    if (filter === '未完了') return !item.done;
+    if (filter === '完了済み') return item.done;
+  });
 
   function handleCheckBox(params) {
     const newItems = items.map(item => {
@@ -47,14 +59,21 @@ function Todo() {
     newItems.push(newItem)
     putItems(newItems)
   }
-
+  
+  // function handleFilter(params) {
+  //   setFilter(params)
+  //   console.log(params)
+  // }
+  const handleFilter = value => setFilter(value);
+  
   return (
     <div className="panel">
       <div className="panel-heading">
         ITSS ToDoアプリ
       </div>
       <Input onAdd = {handleAdd}/>
-      {items.map(item => (
+      <Filter choose={filter} onClickFilter={handleFilter}/>
+      {itemFilter.map(item => (
         <TodoItem
           key             = {item.key}
           item            = {item}
@@ -62,7 +81,7 @@ function Todo() {
         />
       ))}
       <div className="panel-block">
-        {items.length} items
+        {itemFilter.length} items
       </div>
     </div>
   );
